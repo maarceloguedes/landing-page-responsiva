@@ -385,8 +385,8 @@
             // ─── CONFIG ───
             const UNIVERSAL_LINK = 'https://dronline.plataforma-beneficiario.mosiaomnichannel.com.br/app/magicLink/eyJ0b2tlbkhhc2giOiI5M2VhMmUzZS0yMjNiLTQ4NGUtODJjYS0xNzBmNTk4MzllMjkiLCJjaGF2ZVVuaWNhIjoiMDQwNTA2MDMxOTUifQ==';
 
-            // Force Safari on iOS from other browsers
-            const SAFARI_FORCE_PREFIX = 'x-safari-';
+            // Known custom scheme for the Dr. Online app
+            const IOS_CUSTOM_SCHEME = 'br.com.mobilesaude.dronline://';
 
             const STORES = {
                 android: 'https://play.google.com/store/apps/details?id=br.com.mobilesaude.dronline',
@@ -400,14 +400,6 @@
                 if (/android/i.test(ua)) return 'android';
                 if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) return 'ios';
                 return 'desktop';
-            }
-
-            function isIOSSafari() {
-                const ua = navigator.userAgent;
-                // Check for common non-Safari browsers on iOS
-                const isNonSafari = /CriOS|FxiOS|OPiOS|EdgiOS|FBAN|FBAV|Instagram|Line|Twitter|LinkedIn/i.test(ua);
-                const isSafari = /Safari/i.test(ua) && /Version/i.test(ua);
-                return isSafari && !isNonSafari;
             }
 
             function init() {
@@ -424,24 +416,25 @@
                     $('store-btn-text').textContent = platform === 'android' ? 'Baixar na Google Play' : 'Baixar na App Store';
                 }
 
-                // 1. Silent Redirect Attempt
+                // 1. Direct App Launch Attempt
                 if (platform === 'android') {
                     window.location.href = UNIVERSAL_LINK;
                 } else if (platform === 'ios') {
-                    if (isIOSSafari()) {
-                        // Native Safari handles Universal Links perfectly
-                        window.location.href = UNIVERSAL_LINK;
-                    } else {
-                        // Chrome/Firefox/Others: Force Safari to get the native "Open App" behavior
-                        // We use x-safari-https:// protocol to cross-launch Safari
-                        window.location.href = SAFARI_FORCE_PREFIX + UNIVERSAL_LINK;
+                    // Fire Universal Link first (best for Safari)
+                    window.location.href = UNIVERSAL_LINK;
 
-                        // Fallback to normal link after a delay if redirect failed/canceled
-                        setTimeout(() => { window.location.href = UNIVERSAL_LINK; }, 1500);
-                    }
+                    // For Chrome/Firefox/Others, Universal Links via JS often fail to open the app.
+                    // We fire the custom scheme as a backup after a tiny delay to trigger the native prompt.
+                    setTimeout(() => {
+                        // Check if page is still visible (if app opened, the timer might be throttled/page hidden)
+                        if (!document.hidden) {
+                            window.location.href = IOS_CUSTOM_SCHEME;
+                        }
+                    }, 800);
                 }
 
-                // 2. Hybrid UI Display
+                // 2. UI Display (Fallback)
+                // Shorter delay for a "snappier" feeling if auto-open doesn't happen
                 setTimeout(() => {
                     mainBtn.classList.add('visible');
                     helper.classList.add('visible');
@@ -450,20 +443,11 @@
                         $('btn-main-text').textContent = 'Acessar pelo Navegador';
                         helper.textContent = 'Clique acima para acessar a plataforma web.';
                     } else {
-                        // If on non-Safari iOS, the button should also try to force Safari
-                        if (platform === 'ios' && !isIOSSafari()) {
-                            mainBtn.href = SAFARI_FORCE_PREFIX + UNIVERSAL_LINK;
-                            mainBtn.addEventListener('click', (e) => {
-                                // The x-safari- redirect usually works but we try the standard link as fallback
-                                setTimeout(() => { window.location.href = UNIVERSAL_LINK; }, 1200);
-                            });
-                        }
-
                         hint.style.display = 'block';
                         storeBtn.classList.add('visible');
-                        helper.textContent = 'Não abriu? Toque no botão acima ou baixe o app.';
+                        helper.textContent = 'Não abriu? Toque acima ou use o App Store.';
                     }
-                }, 2500);
+                }, 1800);
 
                 // Platform badge
                 const badge = $('platform-badge');
