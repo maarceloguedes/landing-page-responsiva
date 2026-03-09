@@ -212,108 +212,6 @@
         }
 
         /* Buttons */
-        .btn-group {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            align-items: center;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            width: 100%;
-            max-width: 320px;
-            padding: 16px 28px;
-            font-family: inherit;
-            font-size: 0.92rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border: none;
-            border-radius: var(--radius-pill);
-            cursor: pointer;
-            text-decoration: none;
-            transition: all 0.25s ease;
-        }
-
-        /* BIG primary CTA - prominent and inviting to tap */
-        .btn-primary {
-            background: var(--magenta);
-            color: #fff;
-            box-shadow: var(--shadow-btn);
-            padding: 20px 32px;
-            font-size: 1rem;
-            animation: pulse-btn 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse-btn {
-
-            0%,
-            100% {
-                box-shadow: 0 6px 24px rgba(236, 0, 140, 0.35);
-            }
-
-            50% {
-                box-shadow: 0 8px 36px rgba(236, 0, 140, 0.55);
-            }
-        }
-
-        .btn-primary:hover {
-            background: var(--magenta-hover);
-            transform: translateY(-2px);
-        }
-
-        .btn-store {
-            background: var(--bg-white);
-            color: var(--navy);
-            border: 2px solid var(--navy);
-            box-shadow: none;
-            font-size: 0.82rem;
-            padding: 12px 24px;
-        }
-
-        .btn-store:hover {
-            background: var(--navy);
-            color: #fff;
-            transform: translateY(-1px);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        .helper-text {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-top: 4px;
-            line-height: 1.5;
-        }
-
-        .helper-text strong {
-            color: var(--navy);
-        }
-
-        /* Arrow animation pointing to button */
-        .tap-hint {
-            font-size: 1.5rem;
-            margin-bottom: 8px;
-            animation: bounce 1.5s ease-in-out infinite;
-        }
-
-        @keyframes bounce {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-6px);
-            }
-        }
 
         /* Info cards */
         .info-row {
@@ -434,13 +332,8 @@
                 </div>
 
                 <div class="btn-group">
-                    <div class="tap-hint">👇</div>
+                    <div id="tap-hint">👇</div>
 
-                    <!--
-            UNIVERSAL LINK: This <a> tag must be tapped by the user.
-            On iOS (any browser), a user tap on a Universal Link opens the app.
-            JavaScript redirects do NOT trigger Universal Links.
-          -->
                     <a id="btn-main" class="btn btn-primary"
                         href="https://dronline.plataforma-beneficiario.mosiaomnichannel.com.br/app/magicLink/eyJ0b2tlbkhhc2giOiI5M2VhMmUzZS0yMjNiLTQ4NGUtODJjYS0xNzBmNTk4MzllMjkiLCJjaGF2ZVVuaWNhIjoiMDQwNTA2MDMxOTUifQ==">
                         <span>🚀</span>
@@ -448,10 +341,10 @@
                     </a>
 
                     <p class="helper-text" id="helper-text">
-                        Toque para abrir o aplicativo ou acessar a plataforma web
+                        O aplicativo abrirá automaticamente em instantes...
                     </p>
 
-                    <a id="btn-store" class="btn btn-store" href="#" target="_blank" style="display: none;">
+                    <a id="btn-store" class="btn btn-store" href="#" target="_blank">
                         <span>📥</span>
                         <span id="store-btn-text">Baixar o aplicativo</span>
                     </a>
@@ -507,6 +400,40 @@
 
             function init() {
                 const platform = detectPlatform();
+                const mainBtn = $('btn-main');
+                const helper = $('helper-text');
+                const hint = $('tap-hint');
+                const storeBtn = $('btn-store');
+
+                // Initial setup
+                mainBtn.href = UNIVERSAL_LINK;
+                if (platform !== 'desktop') {
+                    storeBtn.href = STORES[platform];
+                    $('store-btn-text').textContent = platform === 'android' ? 'Baixar na Google Play' : 'Baixar na App Store';
+                }
+
+                // 1. Silent Redirect Attempt
+                // Only attempt automatic redirect on mobile
+                if (platform !== 'desktop') {
+                    window.location.href = UNIVERSAL_LINK;
+                }
+
+                // 2. Hybrid UI Display
+                // If the user remains on the page (meaning redirect didn't close it),
+                // show the buttons with a delay to maximize UX.
+                setTimeout(() => {
+                    mainBtn.classList.add('visible');
+                    helper.classList.add('visible');
+
+                    if (platform === 'desktop') {
+                        $('btn-main-text').textContent = 'Acessar pelo Navegador';
+                        helper.textContent = 'Clique acima para acessar a plataforma web.';
+                    } else {
+                        hint.style.display = 'block';
+                        storeBtn.classList.add('visible');
+                        helper.textContent = 'Não abriu? Toque no botão acima ou baixe o app.';
+                    }
+                }, 2500);
 
                 // Platform badge
                 const badge = $('platform-badge');
@@ -515,26 +442,6 @@
                 const labels = { android: 'Android detectado', ios: 'iOS detectado', desktop: 'Desktop detectado' };
                 $('platform-icon').textContent = icons[platform];
                 $('platform-text').textContent = labels[platform];
-
-                // Main button — always uses Universal Link
-                // On iOS/Android: user tap triggers app opening via Universal Links / App Links
-                // On Desktop / no app: loads the web platform
-                $('btn-main').href = UNIVERSAL_LINK;
-
-                if (platform === 'desktop') {
-                    $('btn-main-text').textContent = 'Acessar pelo Navegador';
-                    $('helper-text').textContent = 'Você será direcionado para a plataforma web.';
-                    // Hide tap hint on desktop
-                    document.querySelector('.tap-hint').style.display = 'none';
-                } else {
-                    // Show store button
-                    const storeBtn = $('btn-store');
-                    storeBtn.style.display = 'inline-flex';
-                    storeBtn.href = STORES[platform];
-                    $('store-btn-text').textContent = platform === 'android'
-                        ? 'Baixar na Google Play'
-                        : 'Baixar na App Store';
-                }
             }
 
             if (document.readyState === 'loading') {
