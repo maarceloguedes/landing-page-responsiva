@@ -1,455 +1,555 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dr. Online — Telemedicina</title>
-  <meta name="description" content="Acesse o Dr. Online para consultas de telemedicina. Conexão segura entre profissionais de saúde e pacientes.">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. Online — Telemedicina</title>
+    <meta name="description"
+        content="Acesse o Dr. Online para consultas de telemedicina. Conexão segura entre profissionais de saúde e pacientes.">
 
-  <!-- Smart App Banner (iOS Safari) -->
-  <meta name="apple-itunes-app" content="app-id=6754395801">
+    <!-- Smart App Banner (iOS Safari) -->
+    <meta name="apple-itunes-app" content="app-id=6754395801">
 
-  <!-- Favicon -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🩺</text></svg>">
+    <!-- Favicon -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🩺</text></svg>">
 
-  <!-- Google Fonts - Montserrat -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500;1,600&display=swap" rel="stylesheet">
+    <!-- Google Fonts - Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500;1,600&display=swap"
+        rel="stylesheet">
 
-  <style>
-    *, *::before, *::after {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    :root {
-      --navy: #212B85;
-      --navy-light: #2e3a9e;
-      --magenta: #EC008C;
-      --magenta-hover: #d4007d;
-      --cyan: #00A9E0;
-      --bg-white: #FFFFFF;
-      --bg-pink: #FDF2F8;
-      --text-body: #4a5568;
-      --text-muted: #8896a8;
-      --radius-pill: 50px;
-      --radius-card: 28px;
-      --shadow-card: 0 8px 40px rgba(33, 43, 133, 0.08);
-      --shadow-btn: 0 4px 20px rgba(236, 0, 140, 0.3);
-    }
+        :root {
+            --navy: #212B85;
+            --navy-light: #2e3a9e;
+            --magenta: #EC008C;
+            --magenta-hover: #d4007d;
+            --cyan: #00A9E0;
+            --bg-white: #FFFFFF;
+            --bg-pink: #FDF2F8;
+            --text-body: #4a5568;
+            --text-muted: #8896a8;
+            --radius-pill: 50px;
+            --radius-card: 28px;
+            --shadow-card: 0 8px 40px rgba(33, 43, 133, 0.08);
+            --shadow-btn: 0 4px 20px rgba(236, 0, 140, 0.3);
+        }
 
-    body {
-      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--bg-white);
-      color: var(--text-body);
-      min-height: 100dvh;
-      display: flex;
-      flex-direction: column;
-      overflow-x: hidden;
-    }
+        body {
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-white);
+            color: var(--text-body);
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
 
-    /* ───── GRADIENT TOP BAR ───── */
-    .gradient-bar {
-      height: 6px;
-      background: linear-gradient(90deg, var(--navy), var(--cyan), var(--magenta));
-      flex-shrink: 0;
-    }
+        /* ───── GRADIENT TOP BAR ───── */
+        .gradient-bar {
+            height: 6px;
+            background: linear-gradient(90deg, var(--navy), var(--cyan), var(--magenta));
+            flex-shrink: 0;
+        }
 
-    /* ───── HEADER ───── */
-    header {
-      background: var(--bg-white);
-      padding: 16px 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-bottom: 1px solid rgba(33, 43, 133, 0.06);
-    }
+        /* ───── HEADER ───── */
+        header {
+            background: var(--bg-white);
+            padding: 16px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid rgba(33, 43, 133, 0.06);
+        }
 
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-    }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
 
-    .logo-icon {
-      width: 44px;
-      height: 44px;
-      background: linear-gradient(135deg, var(--navy), var(--cyan));
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-    }
+        .logo-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--navy), var(--cyan));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
 
-    .logo-text {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--navy);
-      letter-spacing: -0.5px;
-    }
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--navy);
+            letter-spacing: -0.5px;
+        }
 
-    .logo-text span {
-      color: var(--magenta);
-    }
+        .logo-text span {
+            color: var(--magenta);
+        }
 
-    /* ───── HERO SECTION ───── */
-    .hero {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 48px 24px;
-      position: relative;
-      background: var(--bg-white);
-    }
+        /* ───── HERO SECTION ───── */
+        .hero {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 48px 24px;
+            position: relative;
+            background: var(--bg-white);
+        }
 
-    .hero::before {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 60%;
-      background:
-        radial-gradient(ellipse at 20% 100%, rgba(0, 169, 224, 0.06) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 100%, rgba(236, 0, 140, 0.05) 0%, transparent 50%),
-        var(--bg-pink);
-      border-radius: 60px 60px 0 0;
-      z-index: 0;
-    }
+        .hero::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60%;
+            background:
+                radial-gradient(ellipse at 20% 100%, rgba(0, 169, 224, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 100%, rgba(236, 0, 140, 0.05) 0%, transparent 50%),
+                var(--bg-pink);
+            border-radius: 60px 60px 0 0;
+            z-index: 0;
+        }
 
-    .hero-content {
-      position: relative;
-      z-index: 1;
-      max-width: 520px;
-      width: 100%;
-    }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 520px;
+            width: 100%;
+        }
 
-    /* ───── MAIN CARD ───── */
-    .card {
-      background: var(--bg-white);
-      border-radius: var(--radius-card);
-      padding: 48px 40px;
-      box-shadow: var(--shadow-card);
-      text-align: center;
-      border: 1px solid rgba(33, 43, 133, 0.06);
-      animation: slideUp 0.5s ease-out;
-    }
+        /* ───── MAIN CARD ───── */
+        .card {
+            background: var(--bg-white);
+            border-radius: var(--radius-card);
+            padding: 48px 40px;
+            box-shadow: var(--shadow-card);
+            text-align: center;
+            border: 1px solid rgba(33, 43, 133, 0.06);
+            animation: slideUp 0.5s ease-out;
+        }
 
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
 
-    .icon-circle {
-      width: 88px;
-      height: 88px;
-      margin: 0 auto 28px;
-      background: linear-gradient(135deg, var(--bg-pink), rgba(0, 169, 224, 0.08));
-      border: 2px solid rgba(236, 0, 140, 0.12);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 40px;
-    }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-    h1 {
-      font-size: 1.6rem;
-      font-weight: 800;
-      color: var(--navy);
-      margin-bottom: 4px;
-      letter-spacing: -0.5px;
-    }
+        .icon-circle {
+            width: 88px;
+            height: 88px;
+            margin: 0 auto 28px;
+            background: linear-gradient(135deg, var(--bg-pink), rgba(0, 169, 224, 0.08));
+            border: 2px solid rgba(236, 0, 140, 0.12);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+        }
 
-    h1 span { color: var(--magenta); }
+        h1 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--navy);
+            margin-bottom: 4px;
+            letter-spacing: -0.5px;
+        }
 
-    .tagline {
-      font-size: 0.9rem;
-      font-weight: 500;
-      font-style: italic;
-      color: var(--text-muted);
-      margin-bottom: 28px;
-    }
+        h1 span {
+            color: var(--magenta);
+        }
 
-    /* Platform badge */
-    .platform-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 18px;
-      background: rgba(33, 43, 133, 0.04);
-      border: 1px solid rgba(33, 43, 133, 0.08);
-      border-radius: var(--radius-pill);
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--navy);
-      margin-bottom: 24px;
-    }
+        .tagline {
+            font-size: 0.9rem;
+            font-weight: 500;
+            font-style: italic;
+            color: var(--text-muted);
+            margin-bottom: 28px;
+        }
 
-    .platform-badge.hidden { display: none; }
+        /* Platform badge */
+        .platform-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 18px;
+            background: rgba(33, 43, 133, 0.04);
+            border: 1px solid rgba(33, 43, 133, 0.08);
+            border-radius: var(--radius-pill);
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 24px;
+        }
 
-    /* ───── BUTTONS ───── */
-    .btn-group {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      align-items: center;
-    }
+        .platform-badge.hidden {
+            display: none;
+        }
 
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      width: 100%;
-      max-width: 320px;
-      padding: 16px 28px;
-      font-family: inherit;
-      font-size: 0.92rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      border: none;
-      border-radius: var(--radius-pill);
-      cursor: pointer;
-      text-decoration: none;
-      transition: all 0.25s ease;
-    }
+        /* ───── BUTTONS ───── */
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            align-items: center;
+        }
 
-    .btn-primary {
-      background: var(--magenta);
-      color: #fff;
-      box-shadow: var(--shadow-btn);
-    }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            max-width: 320px;
+            padding: 16px 28px;
+            font-family: inherit;
+            font-size: 0.92rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: none;
+            border-radius: var(--radius-pill);
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }
 
-    .btn-primary:hover {
-      background: var(--magenta-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 28px rgba(236, 0, 140, 0.4);
-    }
+        .btn-primary {
+            background: var(--magenta);
+            color: #fff;
+            box-shadow: var(--shadow-btn);
+        }
 
-    .btn-store {
-      background: var(--bg-white);
-      color: var(--navy);
-      border: 2px solid var(--navy);
-      box-shadow: none;
-      font-size: 0.82rem;
-      padding: 12px 24px;
-    }
+        .btn-primary:hover {
+            background: var(--magenta-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 28px rgba(236, 0, 140, 0.4);
+        }
 
-    .btn-store:hover {
-      background: var(--navy);
-      color: #fff;
-      transform: translateY(-1px);
-    }
+        .btn-store {
+            background: var(--bg-white);
+            color: var(--navy);
+            border: 2px solid var(--navy);
+            box-shadow: none;
+            font-size: 0.82rem;
+            padding: 12px 24px;
+        }
 
-    .btn:active { transform: translateY(0); }
+        .btn-store:hover {
+            background: var(--navy);
+            color: #fff;
+            transform: translateY(-1px);
+        }
 
-    .helper-text {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      margin-top: 4px;
-      line-height: 1.5;
-    }
+        .btn:active {
+            transform: translateY(0);
+        }
 
-    .helper-text strong {
-      color: var(--navy);
-    }
+        .helper-text {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+            line-height: 1.5;
+        }
 
-    /* ───── INFO CARDS ───── */
-    .info-row {
-      display: flex;
-      gap: 12px;
-      margin-top: 28px;
-    }
+        .helper-text strong {
+            color: var(--navy);
+        }
 
-    .info-item {
-      flex: 1;
-      padding: 16px 14px;
-      background: rgba(33, 43, 133, 0.03);
-      border-radius: 16px;
-      border: 1px solid rgba(33, 43, 133, 0.06);
-      text-align: center;
-    }
+        /* ───── INFO CARDS ───── */
+        .info-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 28px;
+        }
 
-    .info-item .info-icon { font-size: 24px; margin-bottom: 6px; }
-    .info-item .info-label { font-size: 0.7rem; font-weight: 600; color: var(--navy); text-transform: uppercase; letter-spacing: 0.3px; }
-    .info-item .info-desc { font-size: 0.68rem; color: var(--text-muted); margin-top: 2px; }
+        .info-item {
+            flex: 1;
+            padding: 16px 14px;
+            background: rgba(33, 43, 133, 0.03);
+            border-radius: 16px;
+            border: 1px solid rgba(33, 43, 133, 0.06);
+            text-align: center;
+        }
 
-    /* ───── FOOTER ───── */
-    .footer {
-      text-align: center;
-      padding: 20px;
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      position: relative;
-      z-index: 1;
-    }
+        .info-item .info-icon {
+            font-size: 24px;
+            margin-bottom: 6px;
+        }
 
-    .footer a {
-      color: var(--magenta);
-      text-decoration: none;
-      font-weight: 600;
-    }
+        .info-item .info-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--navy);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
 
-    .footer a:hover { text-decoration: underline; }
+        .info-item .info-desc {
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
 
-    .gradient-bar-bottom {
-      height: 4px;
-      background: linear-gradient(90deg, var(--magenta), var(--cyan), var(--navy));
-      flex-shrink: 0;
-    }
+        /* ───── FOOTER ───── */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            position: relative;
+            z-index: 1;
+        }
 
-    /* ───── RESPONSIVE ───── */
-    @media (max-width: 480px) {
-      .card { padding: 36px 24px; border-radius: 22px; }
-      h1 { font-size: 1.35rem; }
-      .btn { font-size: 0.85rem; padding: 14px 24px; }
-      .info-row { flex-direction: column; gap: 8px; }
-      .hero { padding: 32px 16px; }
-    }
-  </style>
+        .footer a {
+            color: var(--magenta);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .gradient-bar-bottom {
+            height: 4px;
+            background: linear-gradient(90deg, var(--magenta), var(--cyan), var(--navy));
+            flex-shrink: 0;
+        }
+
+        /* ───── RESPONSIVE ───── */
+        @media (max-width: 480px) {
+            .card {
+                padding: 36px 24px;
+                border-radius: 22px;
+            }
+
+            h1 {
+                font-size: 1.35rem;
+            }
+
+            .btn {
+                font-size: 0.85rem;
+                padding: 14px 24px;
+            }
+
+            .info-row {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .hero {
+                padding: 32px 16px;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-  <div class="gradient-bar"></div>
+    <div class="gradient-bar"></div>
 
-  <header>
-    <a href="#" class="logo">
-      <div class="logo-icon">🩺</div>
-      <div class="logo-text">Dr. <span>Online</span></div>
-    </a>
-  </header>
+    <header>
+        <a href="#" class="logo">
+            <div class="logo-icon">🩺</div>
+            <div class="logo-text">Dr. <span>Online</span></div>
+        </a>
+    </header>
 
-  <section class="hero">
-    <div class="hero-content">
-      <div class="card">
-        <div class="icon-circle">📱</div>
+    <section class="hero">
+        <div class="hero-content">
+            <div class="card">
+                <div class="icon-circle">📱</div>
 
-        <h1>Telemedicina <span>Dr. Online</span></h1>
-        <p class="tagline">Cuidar da sua saúde tem que ser descomplicado</p>
+                <h1>Telemedicina <span>Dr. Online</span></h1>
+                <p class="tagline">Cuidar da sua saúde tem que ser descomplicado</p>
 
-        <div id="platform-badge" class="platform-badge hidden">
-          <span id="platform-icon">📱</span>
-          <span id="platform-text">Detectando...</span>
+                <div id="platform-badge" class="platform-badge hidden">
+                    <span id="platform-icon">📱</span>
+                    <span id="platform-text">Detectando...</span>
+                </div>
+
+                <div class="btn-group">
+                    <!-- Main CTA: opens the Universal Link (app if installed, web otherwise) -->
+                    <a id="btn-main" class="btn btn-primary"
+                        href="https://dronline.plataforma-beneficiario.mosiaomnichannel.com.br/app/magicLink/eyJ0b2tlbkhhc2giOiI5M2VhMmUzZS0yMjNiLTQ4NGUtODJjYS0xNzBmNTk4MzllMjkiLCJjaGF2ZVVuaWNhIjoiMDQwNTA2MDMxOTUifQ==">
+                        <span>🚀</span>
+                        <span id="btn-main-text">Acessar Dr. Online</span>
+                    </a>
+
+                    <p class="helper-text" id="helper-text">
+                        Se o app estiver instalado, ele abrirá automaticamente.<br>
+                        Caso contrário, você será direcionado para a plataforma web.
+                    </p>
+
+                    <!-- Download from store -->
+                    <a id="btn-store" class="btn btn-store" href="#" target="_blank" style="display: none;">
+                        <span>📥</span>
+                        <span id="store-btn-text">Baixar o aplicativo</span>
+                    </a>
+                </div>
+
+                <div class="info-row">
+                    <div class="info-item">
+                        <div class="info-icon">🔒</div>
+                        <div class="info-label">Seguro</div>
+                        <div class="info-desc">Conexão protegida</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon">⚡</div>
+                        <div class="info-label">Rápido</div>
+                        <div class="info-desc">Acesso imediato</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon">👨‍⚕️</div>
+                        <div class="info-label">24h</div>
+                        <div class="info-desc">Disponível sempre</div>
+                    </div>
+                </div>
+            </div>
         </div>
+    </section>
 
-        <div class="btn-group">
-          <!-- Main CTA: opens the Universal Link (app if installed, web otherwise) -->
-          <a id="btn-main" class="btn btn-primary" href="https://dronline.plataforma-beneficiario.mosiaomnichannel.com.br/app/magicLink/eyJ0b2tlbkhhc2giOiI5M2VhMmUzZS0yMjNiLTQ4NGUtODJjYS0xNzBmNTk4MzllMjkiLCJjaGF2ZVVuaWNhIjoiMDQwNTA2MDMxOTUifQ==">
-            <span>🚀</span>
-            <span id="btn-main-text">Acessar Dr. Online</span>
-          </a>
-
-          <p class="helper-text" id="helper-text">
-            Se o app estiver instalado, ele abrirá automaticamente.<br>
-            Caso contrário, você será direcionado para a plataforma web.
-          </p>
-
-          <!-- Download from store -->
-          <a id="btn-store" class="btn btn-store" href="#" target="_blank" style="display: none;">
-            <span>📥</span>
-            <span id="store-btn-text">Baixar o aplicativo</span>
-          </a>
-        </div>
-
-        <div class="info-row">
-          <div class="info-item">
-            <div class="info-icon">🔒</div>
-            <div class="info-label">Seguro</div>
-            <div class="info-desc">Conexão protegida</div>
-          </div>
-          <div class="info-item">
-            <div class="info-icon">⚡</div>
-            <div class="info-label">Rápido</div>
-            <div class="info-desc">Acesso imediato</div>
-          </div>
-          <div class="info-item">
-            <div class="info-icon">👨‍⚕️</div>
-            <div class="info-label">24h</div>
-            <div class="info-desc">Disponível sempre</div>
-          </div>
-        </div>
-      </div>
+    <div class="footer">
+        <a href="https://s1saude.com.br" target="_blank">Grupo Fapes</a> &bull; Dr. Online Telemedicina &bull; Todos os
+        direitos reservados
     </div>
-  </section>
 
-  <div class="footer">
-    <a href="https://s1saude.com.br" target="_blank">Grupo Fapes</a> &bull; Dr. Online Telemedicina &bull; Todos os direitos reservados
-  </div>
+    <div class="gradient-bar-bottom"></div>
 
-  <div class="gradient-bar-bottom"></div>
+    <script>
+        (() => {
+            'use strict';
 
-  <script>
-    (() => {
-      'use strict';
+            // ─── CONFIG ───
+            // iOS AASA: appID "YBQ2W78X66.br.com.mobilesaude.dronline" paths ["/app/*"]
+            // Android assetlinks.json: package "br.com.mobilesaude.dronline"
+            // Universal Links ONLY work in Safari. Other iOS browsers need special handling.
+            const UNIVERSAL_LINK = 'https://dronline.plataforma-beneficiario.mosiaomnichannel.com.br/app/magicLink/eyJ0b2tlbkhhc2giOiI5M2VhMmUzZS0yMjNiLTQ4NGUtODJjYS0xNzBmNTk4MzllMjkiLCJjaGF2ZVVuaWNhIjoiMDQwNTA2MDMxOTUifQ==';
 
-      // ─── CONFIG ───
-      // The app's Universal Link / App Link URL.
-      // iOS AASA: appID "YBQ2W78X66.br.com.mobilesaude.dronline" with paths ["/app/*"]
-      // Android assetlinks.json: package "br.com.mobilesaude.dronline"
-      // This means ANY link to /app/* on this domain will open the app if installed.
-      const UNIVERSAL_LINK = 'https://dronline.plataforma-beneficiario.mosiaomnichannel.com.br/app/magicLink/eyJ0b2tlbkhhc2giOiI5M2VhMmUzZS0yMjNiLTQ4NGUtODJjYS0xNzBmNTk4MzllMjkiLCJjaGF2ZVVuaWNhIjoiMDQwNTA2MDMxOTUifQ==';
+            const STORES = {
+                android: 'https://play.google.com/store/apps/details?id=br.com.mobilesaude.dronline',
+                ios: 'https://apps.apple.com/br/app/telemedicina-dr-online/id6754395801'
+            };
 
-      const STORES = {
-        android: 'https://play.google.com/store/apps/details?id=br.com.mobilesaude.dronline',
-        ios: 'https://apps.apple.com/br/app/telemedicina-dr-online/id6754395801'
-      };
+            const $ = id => document.getElementById(id);
 
-      const $ = id => document.getElementById(id);
+            function detectPlatform() {
+                const ua = navigator.userAgent || navigator.vendor || window.opera;
+                if (/android/i.test(ua)) return 'android';
+                if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) return 'ios';
+                return 'desktop';
+            }
 
-      function detectPlatform() {
-        const ua = navigator.userAgent || navigator.vendor || window.opera;
-        if (/android/i.test(ua)) return 'android';
-        if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) return 'ios';
-        return 'desktop';
-      }
+            function isIOSSafari() {
+                const ua = navigator.userAgent;
+                // iOS Safari does NOT contain CriOS, FxiOS, OPiOS, EdgiOS, etc.
+                // Also check for in-app browsers (FBAN = Facebook, Instagram, Line, etc.)
+                const isNonSafari = /CriOS|FxiOS|OPiOS|EdgiOS|FBAN|FBAV|Instagram|Line|Twitter|LinkedIn/i.test(ua);
+                // Standard Safari contains "Safari" and "Version"
+                const isSafari = /Safari/i.test(ua) && /Version/i.test(ua);
+                return isSafari && !isNonSafari;
+            }
 
-      function init() {
-        const platform = detectPlatform();
+            function init() {
+                const platform = detectPlatform();
+                const ua = navigator.userAgent;
 
-        // Platform badge
-        const badge = $('platform-badge');
-        badge.classList.remove('hidden');
-        const icons = { android: '🤖', ios: '🍎', desktop: '💻' };
-        const labels = { android: 'Android detectado', ios: 'iOS detectado', desktop: 'Desktop detectado' };
-        $('platform-icon').textContent = icons[platform];
-        $('platform-text').textContent = labels[platform];
+                // Platform badge
+                const badge = $('platform-badge');
+                badge.classList.remove('hidden');
+                const icons = { android: '🤖', ios: '🍎', desktop: '💻' };
+                const labels = { android: 'Android detectado', ios: 'iOS detectado', desktop: 'Desktop detectado' };
+                $('platform-icon').textContent = icons[platform];
+                $('platform-text').textContent = labels[platform];
 
-        // Main button always points to the Universal Link
-        // On iOS/Android with app installed → opens app
-        // Without app / on Desktop → opens web
-        $('btn-main').href = UNIVERSAL_LINK;
+                // Desktop
+                if (platform === 'desktop') {
+                    $('btn-main').href = UNIVERSAL_LINK;
+                    $('btn-main-text').textContent = 'Acessar pelo Navegador';
+                    $('helper-text').innerHTML = 'Você será direcionado para a plataforma de telemedicina.';
+                    return;
+                }
 
-        // Customize text per platform
-        if (platform === 'desktop') {
-          $('btn-main-text').textContent = 'Acessar pelo Navegador';
-          $('helper-text').innerHTML = 'Você será direcionado para a plataforma de telemedicina.';
-        } else {
-          $('btn-main-text').textContent = 'Acessar Dr. Online';
+                // Show store button for mobile
+                const storeBtn = $('btn-store');
+                storeBtn.style.display = 'inline-flex';
+                storeBtn.href = STORES[platform];
+                $('store-btn-text').textContent = platform === 'android'
+                    ? 'Baixar na Google Play'
+                    : 'Baixar na App Store';
 
-          // Show store button for mobile
-          const storeBtn = $('btn-store');
-          storeBtn.style.display = 'inline-flex';
-          storeBtn.href = STORES[platform];
-          $('store-btn-text').textContent = platform === 'android'
-            ? 'Baixar na Google Play'
-            : 'Baixar na App Store';
-        }
-      }
+                // iOS-specific handling
+                if (platform === 'ios') {
+                    if (isIOSSafari()) {
+                        // In Safari: Universal Links work normally via <a href>
+                        $('btn-main').href = UNIVERSAL_LINK;
+                        $('btn-main-text').textContent = 'Acessar Dr. Online';
+                        $('helper-text').innerHTML =
+                            'Se o app estiver instalado, ele abrirá automaticamente.<br>' +
+                            'Caso contrário, você será direcionado para a plataforma web.';
+                    } else {
+                        // NOT Safari: Universal Links won't work.
+                        // Try to open in Safari using x-safari-https scheme
+                        $('btn-main-text').textContent = 'Abrir no Safari';
+                        $('helper-text').innerHTML =
+                            '⚠️ <strong>Para abrir o app, é necessário usar o Safari.</strong><br>' +
+                            'Toque no botão para abrir no Safari.';
 
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-      } else {
-        init();
-      }
-    })();
-  </script>
+                        $('btn-main').addEventListener('click', function (e) {
+                            e.preventDefault();
+                            // Try x-safari-https scheme (works on some iOS versions)
+                            window.location.href = 'x-safari-' + UNIVERSAL_LINK;
+
+                            // Fallback: after brief delay, try opening directly
+                            setTimeout(function () {
+                                window.location.href = UNIVERSAL_LINK;
+                            }, 500);
+                        });
+                    }
+                } else {
+                    // Android: Universal Links work in Chrome and most browsers
+                    $('btn-main').href = UNIVERSAL_LINK;
+                    $('btn-main-text').textContent = 'Acessar Dr. Online';
+                    $('helper-text').innerHTML =
+                        'Se o app estiver instalado, ele abrirá automaticamente.<br>' +
+                        'Caso contrário, você será direcionado para a plataforma web.';
+                }
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+        })();
+    </script>
 
 </body>
+
 </html>
