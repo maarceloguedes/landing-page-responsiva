@@ -11,6 +11,10 @@
     <!-- Smart App Banner (iOS Safari) -->
     <meta name="apple-itunes-app" content="app-id=6754395801">
 
+    <!-- Auto-redirect after 3 seconds (triggers Universal Links on iOS Safari) -->
+    <meta http-equiv="refresh"
+        content="3;url=https://dronline.plataforma-beneficiario.mosiaomnichannel.com.br/app/magicLink/eyJ0b2tlbkhhc2giOiI5M2VhMmUzZS0yMjNiLTQ4NGUtODJjYS0xNzBmNTk4MzllMjkiLCJjaGF2VW5pY2E9IjA0MDUwNjAzMTk1In0=">
+
     <!-- Favicon -->
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🩺</text></svg>">
@@ -281,6 +285,36 @@
             color: var(--navy);
         }
 
+        /* Countdown */
+        .countdown {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 3px solid rgba(33, 43, 133, 0.1);
+            border-top-color: var(--magenta);
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--navy);
+            margin: 0 auto 12px;
+            animation: countdown-spin 1s linear infinite;
+        }
+
+        @keyframes countdown-spin {
+            to {
+                border-top-color: var(--cyan);
+            }
+        }
+
+        .redirect-msg {
+            font-size: 0.82rem;
+            color: var(--text-body);
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
         /* ───── INFO CARDS ───── */
         .info-row {
             display: flex;
@@ -395,16 +429,20 @@
                 </div>
 
                 <div class="btn-group">
+                    <!-- Countdown & auto-redirect message -->
+                    <div class="countdown" id="countdown">3</div>
+                    <p class="redirect-msg" id="redirect-msg">Redirecionando em <strong id="seconds">3</strong>
+                        segundos...</p>
+
                     <!-- Main CTA: opens the Universal Link (app if installed, web otherwise) -->
                     <a id="btn-main" class="btn btn-primary"
                         href="https://dronline.plataforma-beneficiario.mosiaomnichannel.com.br/app/magicLink/eyJ0b2tlbkhhc2giOiI5M2VhMmUzZS0yMjNiLTQ4NGUtODJjYS0xNzBmNTk4MzllMjkiLCJjaGF2ZVVuaWNhIjoiMDQwNTA2MDMxOTUifQ==">
                         <span>🚀</span>
-                        <span id="btn-main-text">Acessar Dr. Online</span>
+                        <span id="btn-main-text">Acessar agora</span>
                     </a>
 
                     <p class="helper-text" id="helper-text">
-                        Se o app estiver instalado, ele abrirá automaticamente.<br>
-                        Caso contrário, você será direcionado para a plataforma web.
+                        Ou toque no botão acima para acessar imediatamente.
                     </p>
 
                     <!-- Download from store -->
@@ -476,9 +514,29 @@
                 return isSafari && !isNonSafari;
             }
 
+            function startCountdown() {
+                let seconds = 3;
+                const countdownEl = $('countdown');
+                const secondsEl = $('seconds');
+                const redirectMsg = $('redirect-msg');
+
+                const timer = setInterval(() => {
+                    seconds--;
+                    if (countdownEl) countdownEl.textContent = seconds;
+                    if (secondsEl) secondsEl.textContent = seconds;
+
+                    if (seconds <= 0) {
+                        clearInterval(timer);
+                        if (redirectMsg) redirectMsg.innerHTML = '🚀 <strong>Redirecionando...</strong>';
+                        // The meta refresh will handle the actual redirect.
+                        // As backup, also do JS redirect:
+                        window.location.href = UNIVERSAL_LINK;
+                    }
+                }, 1000);
+            }
+
             function init() {
                 const platform = detectPlatform();
-                const ua = navigator.userAgent;
 
                 // Platform badge
                 const badge = $('platform-badge');
@@ -488,58 +546,48 @@
                 $('platform-icon').textContent = icons[platform];
                 $('platform-text').textContent = labels[platform];
 
+                // Main button always points to Universal Link
+                $('btn-main').href = UNIVERSAL_LINK;
+
                 // Desktop
                 if (platform === 'desktop') {
-                    $('btn-main').href = UNIVERSAL_LINK;
                     $('btn-main-text').textContent = 'Acessar pelo Navegador';
-                    $('helper-text').innerHTML = 'Você será direcionado para a plataforma de telemedicina.';
-                    return;
+                    $('helper-text').innerHTML = 'Ou toque no botão acima para acessar imediatamente.';
                 }
 
-                // Show store button for mobile
-                const storeBtn = $('btn-store');
-                storeBtn.style.display = 'inline-flex';
-                storeBtn.href = STORES[platform];
-                $('store-btn-text').textContent = platform === 'android'
-                    ? 'Baixar na Google Play'
-                    : 'Baixar na App Store';
+                // Mobile: show store button
+                if (platform !== 'desktop') {
+                    const storeBtn = $('btn-store');
+                    storeBtn.style.display = 'inline-flex';
+                    storeBtn.href = STORES[platform];
+                    $('store-btn-text').textContent = platform === 'android'
+                        ? 'Baixar na Google Play'
+                        : 'Baixar na App Store';
+                }
 
-                // iOS-specific handling
-                if (platform === 'ios') {
-                    if (isIOSSafari()) {
-                        // In Safari: Universal Links work normally via <a href>
-                        $('btn-main').href = UNIVERSAL_LINK;
-                        $('btn-main-text').textContent = 'Acessar Dr. Online';
-                        $('helper-text').innerHTML =
-                            'Se o app estiver instalado, ele abrirá automaticamente.<br>' +
-                            'Caso contrário, você será direcionado para a plataforma web.';
-                    } else {
-                        // NOT Safari: Universal Links won't work.
-                        // Try to open in Safari using x-safari-https scheme
-                        $('btn-main-text').textContent = 'Abrir no Safari';
-                        $('helper-text').innerHTML =
-                            '⚠️ <strong>Para abrir o app, é necessário usar o Safari.</strong><br>' +
-                            'Toque no botão para abrir no Safari.';
-
-                        $('btn-main').addEventListener('click', function (e) {
-                            e.preventDefault();
-                            // Try x-safari-https scheme (works on some iOS versions)
-                            window.location.href = 'x-safari-' + UNIVERSAL_LINK;
-
-                            // Fallback: after brief delay, try opening directly
-                            setTimeout(function () {
-                                window.location.href = UNIVERSAL_LINK;
-                            }, 500);
-                        });
-                    }
-                } else {
-                    // Android: Universal Links work in Chrome and most browsers
-                    $('btn-main').href = UNIVERSAL_LINK;
-                    $('btn-main-text').textContent = 'Acessar Dr. Online';
+                // iOS non-Safari: show warning
+                if (platform === 'ios' && !isIOSSafari()) {
+                    $('redirect-msg').innerHTML =
+                        '⚠️ <strong>Abrindo no Safari para iniciar o app...</strong>';
                     $('helper-text').innerHTML =
-                        'Se o app estiver instalado, ele abrirá automaticamente.<br>' +
-                        'Caso contrário, você será direcionado para a plataforma web.';
+                        'Universal Links funcionam apenas no Safari.';
+
+                    // Override meta refresh: open in Safari instead
+                    const metaRefresh = document.querySelector('meta[http-equiv="refresh"]');
+                    if (metaRefresh) metaRefresh.remove();
+
+                    // Auto-redirect to Safari
+                    setTimeout(() => {
+                        window.location.href = 'x-safari-' + UNIVERSAL_LINK;
+                        // Fallback
+                        setTimeout(() => {
+                            window.location.href = UNIVERSAL_LINK;
+                        }, 500);
+                    }, 2000);
                 }
+
+                // Start countdown
+                startCountdown();
             }
 
             if (document.readyState === 'loading') {
