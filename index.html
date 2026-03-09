@@ -382,7 +382,11 @@
         (() => {
             'use strict';
 
-            const UNIVERSAL_LINK = 'https://dronline.plataforma-beneficiario.mosiaomnichannel.com.br/app/magicLink/eyJ0b2tlbkhhc2giOiI5M2VhMmUzZS0yMjNiLTQ4NGUtODJjYS0xNzBmNTk4MzllMjkiLCJjaGF2ZVVuaWNhIjoiMDQwNTA2MDMxOTUifQ==';
+            // ─── CONFIG ───
+            const UNIVERSAL_LINK = 'https://dronline.plataforma-beneficiario.mosiaomnichannel.com.br/app/magicLink/eyJ0b2tlbkhhc2giOiI5M2VhMmUzZS0yMjNiLTQ4NGUtODJjYS0xNzBmNTk4MzllMjkiLCJjaGFiZVVuaWNhIjoiMDQwNTA2MDMxOTUifQ==';
+
+            // Found custom scheme for iOS (br.com.mobilesaude.dronline)
+            const IOS_SCHEME = 'br.com.mobilesaude.dronline://';
 
             const STORES = {
                 android: 'https://play.google.com/store/apps/details?id=br.com.mobilesaude.dronline',
@@ -396,6 +400,13 @@
                 if (/android/i.test(ua)) return 'android';
                 if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) return 'ios';
                 return 'desktop';
+            }
+
+            function isIOSSafari() {
+                const ua = navigator.userAgent;
+                const isNonSafari = /CriOS|FxiOS|OPiOS|EdgiOS|FBAN|FBAV|Instagram|Line|Twitter|LinkedIn/i.test(ua);
+                const isSafari = /Safari/i.test(ua) && /Version/i.test(ua);
+                return isSafari && !isNonSafari;
             }
 
             function init() {
@@ -413,14 +424,21 @@
                 }
 
                 // 1. Silent Redirect Attempt
-                // Only attempt automatic redirect on mobile
-                if (platform !== 'desktop') {
+                if (platform === 'android') {
                     window.location.href = UNIVERSAL_LINK;
+                } else if (platform === 'ios') {
+                    if (isIOSSafari()) {
+                        // Safari: Universal Link handles it
+                        window.location.href = UNIVERSAL_LINK;
+                    } else {
+                        // Chrome/Other: Universal Links often fail via JS. Force Custom Scheme.
+                        window.location.href = IOS_SCHEME;
+                        // Fallback to Universal Link if scheme doesn't work
+                        setTimeout(() => { window.location.href = UNIVERSAL_LINK; }, 1000);
+                    }
                 }
 
-                // 2. Hybrid UI Display
-                // If the user remains on the page (meaning redirect didn't close it),
-                // show the buttons with a delay to maximize UX.
+                // 2. Hybrid UI Display (Fallback)
                 setTimeout(() => {
                     mainBtn.classList.add('visible');
                     helper.classList.add('visible');
@@ -429,6 +447,14 @@
                         $('btn-main-text').textContent = 'Acessar pelo Navegador';
                         helper.textContent = 'Clique acima para acessar a plataforma web.';
                     } else {
+                        // If on non-Safari iOS, button should use the Scheme to be 100% sure
+                        if (platform === 'ios' && !isIOSSafari()) {
+                            mainBtn.href = IOS_SCHEME;
+                            mainBtn.addEventListener('click', () => {
+                                setTimeout(() => { window.location.href = UNIVERSAL_LINK; }, 1000);
+                            });
+                        }
+
                         hint.style.display = 'block';
                         storeBtn.classList.add('visible');
                         helper.textContent = 'Não abriu? Toque no botão acima ou baixe o app.';
