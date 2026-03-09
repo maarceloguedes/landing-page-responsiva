@@ -8,11 +8,14 @@
     <meta name="description"
         content="Acesse o Dr. Online para consultas de telemedicina. Conexão segura entre profissionais de saúde e pacientes.">
 
+    <!-- Smart App Banner (iOS) -->
+    <meta name="apple-itunes-app" content="app-id=6754395801">
+
     <!-- Favicon -->
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🩺</text></svg>">
 
-    <!-- Google Fonts - Montserrat (matching S1 Saude) -->
+    <!-- Google Fonts - Montserrat -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -36,7 +39,6 @@
             --cyan: #00A9E0;
             --bg-white: #FFFFFF;
             --bg-pink: #FDF2F8;
-            --bg-light: #F8FAFC;
             --text-dark: #212B85;
             --text-body: #4a5568;
             --text-muted: #8896a8;
@@ -44,10 +46,6 @@
             --radius-card: 28px;
             --shadow-card: 0 8px 40px rgba(33, 43, 133, 0.08);
             --shadow-btn: 0 4px 20px rgba(236, 0, 140, 0.3);
-        }
-
-        html {
-            scroll-behavior: smooth;
         }
 
         body {
@@ -118,7 +116,6 @@
             background: var(--bg-white);
         }
 
-        /* Decorative wave background */
         .hero::before {
             content: '';
             position: absolute;
@@ -164,7 +161,6 @@
             }
         }
 
-        /* Icon area */
         .icon-circle {
             width: 88px;
             height: 88px;
@@ -210,50 +206,52 @@
             font-size: 0.78rem;
             font-weight: 600;
             color: var(--navy);
-            margin-bottom: 28px;
-        }
-
-        /* Status / loader */
-        .spinner {
-            width: 36px;
-            height: 36px;
-            margin: 0 auto 16px;
-            border: 3px solid rgba(33, 43, 133, 0.1);
-            border-top-color: var(--magenta);
-            border-radius: 50%;
-            animation: spin 0.7s linear infinite;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        .status-text {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            min-height: 20px;
-            margin-bottom: 8px;
-        }
-
-        .result-text {
-            font-size: 0.88rem;
-            color: var(--text-body);
             margin-bottom: 24px;
-            font-weight: 500;
+        }
+
+        .platform-badge.hidden {
+            display: none;
+        }
+
+        /* Divider */
+        .divider-text {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 20px 0;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .divider-text::before,
+        .divider-text::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(33, 43, 133, 0.1);
         }
 
         /* ───── BUTTONS ───── */
-        .btn-primary {
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            align-items: center;
+        }
+
+        .btn {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 10px;
-            padding: 16px 36px;
-            background: var(--magenta);
-            color: #fff;
+            width: 100%;
+            max-width: 320px;
+            padding: 16px 28px;
             font-family: inherit;
-            font-size: 0.95rem;
+            font-size: 0.92rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -262,41 +260,57 @@
             cursor: pointer;
             text-decoration: none;
             transition: all 0.25s ease;
+        }
+
+        .btn-app {
+            background: var(--navy);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(33, 43, 133, 0.3);
+        }
+
+        .btn-app:hover {
+            background: var(--navy-light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 28px rgba(33, 43, 133, 0.4);
+        }
+
+        .btn-web {
+            background: var(--magenta);
+            color: #fff;
             box-shadow: var(--shadow-btn);
         }
 
-        .btn-primary:hover {
+        .btn-web:hover {
             background: var(--magenta-hover);
             transform: translateY(-2px);
             box-shadow: 0 6px 28px rgba(236, 0, 140, 0.4);
         }
 
-        .btn-primary:active {
-            transform: translateY(0);
-        }
-
-        .btn-secondary {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 28px;
+        .btn-store {
             background: var(--bg-white);
             color: var(--navy);
-            font-family: inherit;
-            font-size: 0.85rem;
-            font-weight: 600;
             border: 2px solid var(--navy);
-            border-radius: var(--radius-pill);
-            cursor: pointer;
-            text-decoration: none;
-            transition: all 0.25s ease;
-            margin-top: 14px;
+            box-shadow: none;
+            font-size: 0.82rem;
+            padding: 12px 24px;
         }
 
-        .btn-secondary:hover {
+        .btn-store:hover {
             background: var(--navy);
             color: #fff;
             transform: translateY(-1px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        /* Helper text */
+        .helper-text {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-top: 6px;
+            line-height: 1.4;
         }
 
         /* ───── INFO CARDS ───── */
@@ -354,16 +368,15 @@
             text-decoration: underline;
         }
 
-        /* ───── GRADIENT BOTTOM BAR ───── */
         .gradient-bar-bottom {
             height: 4px;
             background: linear-gradient(90deg, var(--magenta), var(--cyan), var(--navy));
             flex-shrink: 0;
         }
 
-        /* ───── UTILITIES ───── */
-        .hidden {
-            display: none !important;
+        /* Desktop only */
+        .mobile-only {
+            display: none;
         }
 
         /* ───── RESPONSIVE ───── */
@@ -377,9 +390,9 @@
                 font-size: 1.35rem;
             }
 
-            .btn-primary {
-                padding: 14px 28px;
-                font-size: 0.88rem;
+            .btn {
+                font-size: 0.85rem;
+                padding: 14px 24px;
             }
 
             .info-row {
@@ -390,16 +403,22 @@
             .hero {
                 padding: 32px 16px;
             }
+
+            .mobile-only {
+                display: block;
+            }
+
+            .desktop-only {
+                display: none;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <!-- Gradient Top Bar -->
     <div class="gradient-bar"></div>
 
-    <!-- Header -->
     <header>
         <a href="#" class="logo">
             <div class="logo-icon">🩺</div>
@@ -407,45 +426,46 @@
         </a>
     </header>
 
-    <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-
             <div class="card">
-                <!-- Icon -->
                 <div class="icon-circle">📱</div>
 
-                <!-- Title -->
                 <h1>Telemedicina <span>Dr. Online</span></h1>
                 <p class="tagline">Cuidar da sua saúde tem que ser descomplicado</p>
 
-                <!-- Platform badge -->
                 <div id="platform-badge" class="platform-badge hidden">
                     <span id="platform-icon">📱</span>
                     <span id="platform-text">Detectando...</span>
                 </div>
 
-                <!-- Loading state -->
-                <div id="loading-state">
-                    <div class="spinner"></div>
-                    <p class="status-text" id="status-text">Verificando aplicativo instalado...</p>
-                </div>
-
-                <!-- Action state -->
-                <div id="action-state" class="hidden">
-                    <p class="result-text" id="result-text"></p>
-                    <a id="main-btn" class="btn-primary" href="#">
-                        <span id="btn-icon">🌐</span>
-                        <span id="btn-text">Acessar Dr. Online</span>
+                <!-- Mobile: show both options -->
+                <div id="mobile-buttons" class="btn-group" style="display: none;">
+                    <a id="btn-open-app" class="btn btn-app" href="#">
+                        <span>📲</span>
+                        <span>Abrir no Aplicativo</span>
                     </a>
-                    <br>
-                    <a id="store-btn" class="btn-secondary hidden" href="#" target="_blank">
+                    <div class="divider-text">ou</div>
+                    <a id="btn-web" class="btn btn-web" href="#">
+                        <span>🌐</span>
+                        <span>Acessar pelo Navegador</span>
+                    </a>
+                    <p class="helper-text">Se o app não abrir, use o botão "Acessar pelo Navegador"</p>
+                    <a id="btn-store" class="btn btn-store" href="#" target="_blank" style="display: none;">
                         <span>📥</span>
                         <span id="store-btn-text">Baixar na loja</span>
                     </a>
                 </div>
 
-                <!-- Info cards -->
+                <!-- Desktop: web only -->
+                <div id="desktop-buttons" class="btn-group" style="display: none;">
+                    <a id="btn-desktop-web" class="btn btn-web" href="#">
+                        <span>🌐</span>
+                        <span>Acessar pelo Navegador</span>
+                    </a>
+                    <p class="helper-text">Acesse a plataforma de telemedicina diretamente pelo seu navegador</p>
+                </div>
+
                 <div class="info-row">
                     <div class="info-item">
                         <div class="info-icon">🔒</div>
@@ -464,55 +484,43 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
 
-    <!-- Footer -->
     <div class="footer">
         <a href="https://s1saude.com.br" target="_blank">Grupo Fapes</a> &bull; Dr. Online Telemedicina &bull; Todos os
         direitos reservados
     </div>
 
-    <!-- Gradient Bottom Bar -->
     <div class="gradient-bar-bottom"></div>
 
     <script>
         (() => {
             'use strict';
 
-            // ─── CONFIG ───
             const CONFIG = {
                 fallbackUrl: 'https://dronline.plataforma-beneficiario.mosiaomnichannel.com.br/app/magicLink/eyJ0b2tlbkhhc2giOiI5M2VhMmUzZS0yMjNiLTQ4NGUtODJjYS0xNzBmNTk4MzllMjkiLCJjaGF2ZVVuaWNhIjoiMDQwNTA2MDMxOTUifQ==',
                 android: {
                     package: 'br.com.mobilesaude.dronline',
-                    scheme: 'dronline',
-                    playStore: 'https://play.google.com/store/apps/details?id=br.com.mobilesaude.dronline'
+                    playStore: 'https://play.google.com/store/apps/details?id=br.com.mobilesaude.dronline',
+                    // Intent-based deep link — works even without knowing URL scheme
+                    intentUrl: 'intent://open#Intent;scheme=dronline;package=br.com.mobilesaude.dronline;end'
                 },
                 ios: {
                     appId: '6754395801',
-                    scheme: 'dronline',
-                    appStore: 'https://apps.apple.com/br/app/telemedicina-dr-online/id6754395801'
-                },
-                timeout: 2500
+                    appStore: 'https://apps.apple.com/br/app/telemedicina-dr-online/id6754395801',
+                    // Multiple scheme attempts — will try in order
+                    schemes: [
+                        'dronline://',
+                        'mobilesaude-dronline://',
+                        'br.com.mobilesaude.dronline://',
+                        'dronline24h://'
+                    ]
+                }
             };
 
-            // ─── DOM ───
             const $ = id => document.getElementById(id);
-            const loadingState = $('loading-state');
-            const actionState = $('action-state');
-            const statusText = $('status-text');
-            const resultText = $('result-text');
-            const mainBtn = $('main-btn');
-            const btnIcon = $('btn-icon');
-            const btnText = $('btn-text');
-            const storeBtn = $('store-btn');
-            const storeBtnText = $('store-btn-text');
-            const platformBadge = $('platform-badge');
-            const platformIcon = $('platform-icon');
-            const platformText = $('platform-text');
 
-            // ─── PLATFORM DETECTION ───
             function detectPlatform() {
                 const ua = navigator.userAgent || navigator.vendor || window.opera;
                 if (/android/i.test(ua)) return 'android';
@@ -520,110 +528,73 @@
                 return 'desktop';
             }
 
-            function showPlatform(platform) {
-                platformBadge.classList.remove('hidden');
-                if (platform === 'android') {
-                    platformIcon.textContent = '🤖';
-                    platformText.textContent = 'Android detectado';
-                } else if (platform === 'ios') {
-                    platformIcon.textContent = '🍎';
-                    platformText.textContent = 'iOS detectado';
-                } else {
-                    platformIcon.textContent = '💻';
-                    platformText.textContent = 'Desktop detectado';
-                }
-            }
-
-            // ─── DEEP LINK LOGIC ───
-            function tryOpenApp(platform) {
-                if (platform === 'desktop') {
-                    showFallback('Acesse pelo navegador:');
-                    return;
-                }
-
-                statusText.textContent = 'Tentando abrir o aplicativo...';
-
-                let deepLink;
-                let storeUrl;
-
-                if (platform === 'android') {
-                    deepLink = `intent://#Intent;scheme=${CONFIG.android.scheme};package=${CONFIG.android.package};end`;
-                    storeUrl = CONFIG.android.playStore;
-                } else {
-                    deepLink = `${CONFIG.ios.scheme}://`;
-                    storeUrl = CONFIG.ios.appStore;
-                }
-
-                let didLeave = false;
-
-                const onBlur = () => { didLeave = true; };
-                const onVisibilityChange = () => {
-                    if (document.hidden) didLeave = true;
-                };
-
-                window.addEventListener('blur', onBlur);
-                document.addEventListener('visibilitychange', onVisibilityChange);
-
-                if (platform === 'android') {
-                    window.location.href = deepLink;
-                } else {
-                    const iframe = document.createElement('iframe');
-                    iframe.style.display = 'none';
-                    iframe.src = deepLink;
-                    document.body.appendChild(iframe);
-                    setTimeout(() => iframe.remove(), 2000);
-                }
-
-                setTimeout(() => {
-                    window.removeEventListener('blur', onBlur);
-                    document.removeEventListener('visibilitychange', onVisibilityChange);
-
-                    if (didLeave) {
-                        showSuccess();
-                    } else {
-                        showFallback(
-                            'App não encontrado. Redirecionando...',
-                            storeUrl,
-                            platform
-                        );
-                        setTimeout(() => {
-                            window.location.href = CONFIG.fallbackUrl;
-                        }, 800);
-                    }
-                }, CONFIG.timeout);
-            }
-
-            function showSuccess() {
-                loadingState.classList.add('hidden');
-                actionState.classList.remove('hidden');
-                resultText.textContent = '✅ Aplicativo aberto com sucesso!';
-                btnIcon.textContent = '🌐';
-                btnText.textContent = 'Acessar pela Web';
-                mainBtn.href = CONFIG.fallbackUrl;
-            }
-
-            function showFallback(message, storeUrl, platform) {
-                loadingState.classList.add('hidden');
-                actionState.classList.remove('hidden');
-                resultText.textContent = message || 'Acesse o Dr. Online:';
-                btnIcon.textContent = '🌐';
-                btnText.textContent = 'Acessar pelo Navegador';
-                mainBtn.href = CONFIG.fallbackUrl;
-
-                if (storeUrl) {
-                    storeBtn.classList.remove('hidden');
-                    storeBtn.href = storeUrl;
-                    storeBtnText.textContent = platform === 'android'
-                        ? 'Baixar na Google Play'
-                        : 'Baixar na App Store';
-                }
-            }
-
-            // ─── INIT ───
             function init() {
                 const platform = detectPlatform();
-                showPlatform(platform);
-                setTimeout(() => tryOpenApp(platform), 800);
+
+                // Show platform badge
+                const badge = $('platform-badge');
+                badge.classList.remove('hidden');
+
+                if (platform === 'android') {
+                    $('platform-icon').textContent = '🤖';
+                    $('platform-text').textContent = 'Android detectado';
+                } else if (platform === 'ios') {
+                    $('platform-icon').textContent = '🍎';
+                    $('platform-text').textContent = 'iOS detectado';
+                } else {
+                    $('platform-icon').textContent = '💻';
+                    $('platform-text').textContent = 'Desktop detectado';
+                }
+
+                if (platform === 'desktop') {
+                    // Desktop: show web-only button
+                    const desktopBtns = $('desktop-buttons');
+                    desktopBtns.style.display = 'flex';
+                    $('btn-desktop-web').href = CONFIG.fallbackUrl;
+                } else {
+                    // Mobile: show both buttons
+                    const mobileBtns = $('mobile-buttons');
+                    mobileBtns.style.display = 'flex';
+
+                    // Web button always goes to fallback
+                    $('btn-web').href = CONFIG.fallbackUrl;
+
+                    // Store button
+                    const storeBtn = $('btn-store');
+                    if (platform === 'android') {
+                        storeBtn.href = CONFIG.android.playStore;
+                        $('store-btn-text').textContent = 'Baixar na Google Play';
+                    } else {
+                        storeBtn.href = CONFIG.ios.appStore;
+                        $('store-btn-text').textContent = 'Baixar na App Store';
+                    }
+                    storeBtn.style.display = 'inline-flex';
+
+                    // Open app button
+                    const openAppBtn = $('btn-open-app');
+                    openAppBtn.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        openApp(platform);
+                    });
+                }
+            }
+
+            function openApp(platform) {
+                if (platform === 'android') {
+                    // Android: intent-based deep link (most reliable)
+                    window.location.href = CONFIG.android.intentUrl;
+                } else {
+                    // iOS: try multiple URL schemes sequentially
+                    tryIOSSchemes(0);
+                }
+            }
+
+            function tryIOSSchemes(index) {
+                const schemes = CONFIG.ios.schemes;
+                if (index >= schemes.length) return;
+
+                // Use window.location for direct attempt
+                window.location.href = schemes[index];
             }
 
             if (document.readyState === 'loading') {
